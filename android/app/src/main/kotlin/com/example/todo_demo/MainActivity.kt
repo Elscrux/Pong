@@ -1,4 +1,4 @@
-package com.example.todo_demo
+package com.flutterpong
 
 import io.flutter.embedding.android.FlutterActivity
 

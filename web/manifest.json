@@ -1,6 +1,6 @@
 {
-    "name": "todo_demo",
-    "short_name": "todo_demo",
+    "name": "Flutter-Pong",
+    "short_name": "Flutter-Pong",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

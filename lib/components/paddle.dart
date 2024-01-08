@@ -27,11 +27,13 @@ class Paddle extends RectangleComponent
 
   /// Move the paddle by [offset] pixels
   void move(double offset) {
-    if (gameRef.size.x / 2 - (position.x + offset).abs() < size.x / 2) {
-      return;
+    // Make sure the paddle doesn't leave the screen
+    var newPosX = position.x + offset;
+    if (gameRef.size.x / 2 - newPosX.abs() < size.x / 2) {
+      newPosX = (gameRef.size.x / 2) * newPosX.sign;
+    } else {
+      position.x += offset;
     }
-
-    position.x += offset;
 
     currentVelocity = offset;
   }
@@ -64,6 +66,7 @@ class AiPaddle extends Paddle {
   void update(double dt) {
     super.update(dt);
 
+    // Try to hit the closest ball that is approaching the paddle
     var approachingBalls = gameRef.world
         .descendants()
         .whereType<Ball>()
@@ -83,6 +86,7 @@ class AiPaddle extends Paddle {
         accelerate(dt);
       }
     } else {
+      // Move towards the closest ball
       Ball closestBall = approachingBalls.first;
       double closestDistance = (closestBall.position.y - center.y).abs();
       for (var ball in approachingBalls) {

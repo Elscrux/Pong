@@ -41,6 +41,7 @@ class PongWorld extends World with HasGameRef<PongGame> {
   FutureOr<void> onLoad() {
     var size = gameRef.size;
 
+    // Init game objects
     playerPaddle = Paddle(0, size.y / 2 - _paddleOffset);
     enemyPaddle = AiPaddle(0, -size.y / 2 + _paddleOffset, -1);
     _scoreText = TextComponent()
@@ -74,6 +75,7 @@ class PongWorld extends World with HasGameRef<PongGame> {
     return super.onLoad();
   }
 
+  /// Add a [MysteryBox] to the game
   void addMysteryBox() {
     add(MysteryBox(
         Vector2(
@@ -83,23 +85,28 @@ class PongWorld extends World with HasGameRef<PongGame> {
         frequency: 5));
   }
 
+  /// Tilt the player paddle by [x] units
   void tilt(double x) {
     playerPaddle.move(x);
   }
 
+  /// Called when the player scores by moving
+  /// the [ball] past the other enemies paddle
   void playerScored(Ball ball) {
     _playerScore++;
-    updateScore();
+    _updateScore();
     ball.reset(1);
   }
 
+  /// Called when the enemy scores by moving
+  /// the [ball] past the other player's paddle
   void enemyScored(Ball ball) {
     _enemyScore++;
-    updateScore();
+    _updateScore();
     ball.reset(-1);
   }
 
-  void updateScore() {
+  void _updateScore() {
     _scoreText = _scoreText..text = '$_enemyScore\n$_playerScore';
   }
 }

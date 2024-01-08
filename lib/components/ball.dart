@@ -59,10 +59,12 @@ class Ball extends CircleComponent
       Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
 
+    // Don't mind collisions with the mystery box
     if (other is MysteryBox) {
       return;
     }
 
+    // If the ball hits the screen edge, reflect it
     if (other is ScreenHitbox) {
       if ((intersectionPoints.first.x - gameRef.size.x / -2).abs() < 0.001) {
         direction = Vector2(-direction.x, direction.y);
@@ -125,6 +127,7 @@ class Ball extends CircleComponent
     direction = Vector2(Random().nextDouble(), nextDirection).normalized();
   }
 
+  /// Add a speed particle effect to the ball
   void speedEffect() {
     var particleTimer = TimerComponent(
         period: 0.01,
@@ -152,6 +155,7 @@ class Ball extends CircleComponent
   }
 }
 
+/// A ball that is removed from the game after it scores
 class TemporaryBall extends Ball with HasWorldReference<PongWorld> {
   TemporaryBall(Vector2 position, double direction) : super(direction) {
     this.position = position;
